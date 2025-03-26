@@ -1,6 +1,6 @@
-package app.dao;
+package app.repository;
 
-import app.model.Installation;
+import app.dao.Installation;
 import app.util.DatabaseConnection;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -8,7 +8,7 @@ import javafx.collections.ObservableList;
 import java.sql.*;
 import java.time.LocalDate;
 
-public class InstallationDao {
+public class InstallationRepository {
 
     public ObservableList<Installation> getAllInstallations() {
         ObservableList<Installation> list = FXCollections.observableArrayList();

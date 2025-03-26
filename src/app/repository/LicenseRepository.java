@@ -1,13 +1,13 @@
-package app.dao;
+package app.repository;
 
-import app.model.License;
+import app.dao.License;
 import app.util.DatabaseConnection;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.sql.*;
 
-public class LicenseDao {
+public class LicenseRepository {
     public ObservableList<License> getAllLicenses() {
         ObservableList<License> list = FXCollections.observableArrayList();
         String query = "SELECT * FROM license";

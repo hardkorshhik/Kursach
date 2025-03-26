@@ -1,7 +1,7 @@
 package app.controller;
 
+import app.repository.*;
 import app.dao.*;
-import app.model.*;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -53,12 +53,12 @@ public class MainController {
 
 
     // DAO Instances
-    private final ComputerDao computerDAO = new ComputerDao();
-    private final EmployeeDao employeeDAO = new EmployeeDao();
-    private final InstallationDao installationDAO = new InstallationDao();
-    private final LicenseDao licenseDAO = new LicenseDao();
-    private final SoftwareDao softwareDAO = new SoftwareDao();
-    private final SoftwareUsageDao softwareUsageDAO = new SoftwareUsageDao();
+    private final ComputerRepository computerRepository = new ComputerRepository();
+    private final EmployeeRepository employeeRepository = new EmployeeRepository();
+    private final InstallationRepository installationRepository = new InstallationRepository();
+    private final LicenseRepository licenseRepository = new LicenseRepository();
+    private final SoftwareRepository softwareRepository = new SoftwareRepository();
+    private final SoftwareUsageRepository softwareUsageRepository = new SoftwareUsageRepository();
 
     @FXML
     public void initialize() {
@@ -227,7 +227,7 @@ public class MainController {
 
     @FXML
     private void loadOrRefreshComputers() {
-        ObservableList<Computer> computers = computerDAO.getAllComputers();
+        ObservableList<Computer> computers = computerRepository.getAllComputers();
         computerTable.setItems(computers);
         computerTable.setEditable(true);
     }
@@ -241,7 +241,7 @@ public class MainController {
             case "OS" -> computer.setOs(newValue);
         }
 
-        if (!computerDAO.updateComputer(computer)) {
+        if (!computerRepository.updateComputer(computer)) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Ошибка редактирования");
             alert.setHeaderText("Не удалось обновить запись в базе данных");
@@ -251,7 +251,7 @@ public class MainController {
 
     @FXML
     private void loadOrRefreshEmployees() {
-        ObservableList<Employee> employees = employeeDAO.getAllEmployees();
+        ObservableList<Employee> employees = employeeRepository.getAllEmployees();
         employeeTable.setItems(employees);
         employeeTable.setEditable(true);
     }
@@ -265,7 +265,7 @@ public class MainController {
             case "Phone" -> employee.setPhone(newValue);
         }
 
-        if (!employeeDAO.updateEmployee(employee)) {
+        if (!employeeRepository.updateEmployee(employee)) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Ошибка редактирования");
             alert.setHeaderText("Не удалось обновить запись в базе данных");
@@ -275,7 +275,7 @@ public class MainController {
 
     @FXML
     private void loadOrRefreshInstallations() {
-        ObservableList<Installation> installations = installationDAO.getAllInstallations();
+        ObservableList<Installation> installations = installationRepository.getAllInstallations();
         installationTable.setItems(installations);
         installationTable.setEditable(true);
     }
@@ -291,7 +291,7 @@ public class MainController {
 
         installation.setInstallDate(newValue);
 
-        if (!installationDAO.updateInstallation(installation)) {
+        if (!installationRepository.updateInstallation(installation)) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Ошибка редактирования");
             alert.setHeaderText("Не удалось обновить запись в базе данных");
@@ -305,7 +305,7 @@ public class MainController {
             case "Computer ID" -> installation.setComputerId(newValue);
         }
 
-        if (!installationDAO.updateInstallation(installation)) {
+        if (!installationRepository.updateInstallation(installation)) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Ошибка редактирования");
             alert.setHeaderText("Не удалось обновить запись в базе данных");
@@ -315,7 +315,7 @@ public class MainController {
 
     @FXML
     private void loadOrRefreshLicenses() {
-        ObservableList<License> licenses = licenseDAO.getAllLicenses();
+        ObservableList<License> licenses = licenseRepository.getAllLicenses();
         licenseTable.setItems(licenses);
         licenseTable.setEditable(true);
     }
@@ -326,7 +326,7 @@ public class MainController {
             case "Expiration Date" -> license.setExpirationDate(newValue);
         }
 
-        if (!licenseDAO.updateLicense(license)) {
+        if (!licenseRepository.updateLicense(license)) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Ошибка редактирования");
             alert.setHeaderText("Не удалось обновить запись в базе данных");
@@ -337,7 +337,7 @@ public class MainController {
     private void handlerLicenseKey(License license, String newValue) {
         license.setKey(newValue);
 
-        if (!licenseDAO.updateLicense(license)) {
+        if (!licenseRepository.updateLicense(license)) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Ошибка редактирования");
             alert.setHeaderText("Не удалось обновить запись в базе данных");
@@ -348,7 +348,7 @@ public class MainController {
     private void handlerLicense(License license, Integer newValue) {
         license.setSoftwareId(newValue);
 
-        if (!licenseDAO.updateLicense(license)) {
+        if (!licenseRepository.updateLicense(license)) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Ошибка редактирования");
             alert.setHeaderText("Не удалось обновить запись в базе данных");
@@ -358,7 +358,7 @@ public class MainController {
 
     @FXML
     private void loadOrRefreshSoftwares() {
-        ObservableList<Software> softwareList = softwareDAO.getAllSoftware();
+        ObservableList<Software> softwareList = softwareRepository.getAllSoftware();
         softwareTable.setItems(softwareList);
         softwareTable.setEditable(true);
     }
@@ -371,7 +371,7 @@ public class MainController {
             case "License Type" -> software.setLicenseType(newValue);
         }
 
-        if (!softwareDAO.updateSoftware(software)) {
+        if (!softwareRepository.updateSoftware(software)) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Ошибка редактирования");
             alert.setHeaderText("Не удалось обновить запись в базе данных");
@@ -381,7 +381,7 @@ public class MainController {
 
     @FXML
     private void loadOrRefreshSoftwareUsages() {
-        ObservableList<SoftwareUsage> usageList = softwareUsageDAO.getAllSoftwareUsage();
+        ObservableList<SoftwareUsage> usageList = softwareUsageRepository.getAllSoftwareUsage();
         softwareUsageTable.setItems(usageList);
         softwareUsageTable.setEditable(true);
     }
@@ -392,7 +392,7 @@ public class MainController {
             case "End Date" -> softwareUsage.setEndDate(newValue);
         }
 
-        if (!softwareUsageDAO.updateSoftwareUsage(softwareUsage)) {
+        if (!softwareUsageRepository.updateSoftwareUsage(softwareUsage)) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Ошибка редактирования");
             alert.setHeaderText("Не удалось обновить запись в базе данных");
@@ -406,7 +406,7 @@ public class MainController {
             case "Employee ID" -> softwareUsage.setEmployeeId(newValue);
         }
 
-        if (!softwareUsageDAO.updateSoftwareUsage(softwareUsage)) {
+        if (!softwareUsageRepository.updateSoftwareUsage(softwareUsage)) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Ошибка редактирования");
             alert.setHeaderText("Не удалось обновить запись в базе данных");
@@ -431,7 +431,7 @@ public class MainController {
         }
 
         Computer newComputer = new Computer(inventoryNumber, model, cpu, ram, os);
-        if (!computerDAO.addComputer(newComputer)) {
+        if (!computerRepository.addComputer(newComputer)) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Проиозошла ошибка");
             alert.setHeaderText("Произошла ошибка при добавлении!");
@@ -453,7 +453,7 @@ public class MainController {
     private void deleteComputer() {
         Computer selected = computerTable.getSelectionModel().getSelectedItem();
         if (selected != null) {
-            computerDAO.deleteComputer(selected.getId());
+            computerRepository.deleteComputer(selected.getId());
             loadOrRefreshComputers();
         }
     }
@@ -476,7 +476,7 @@ public class MainController {
         }
 
         Employee employee = new Employee(fullName, position, department, email, phone);
-        if (!employeeDAO.addEmployee(employee)) {
+        if (!employeeRepository.addEmployee(employee)) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Проиозошла ошибка");
             alert.setHeaderText("Произошла ошибка при добавлении!");
@@ -500,7 +500,7 @@ public class MainController {
     private void deleteEmployee() {
         Employee selected = employeeTable.getSelectionModel().getSelectedItem();
         if (selected != null) {
-            employeeDAO.deleteEmployee(selected.getId());
+            employeeRepository.deleteEmployee(selected.getId());
             loadOrRefreshEmployees();
         }
     }
@@ -530,7 +530,7 @@ public class MainController {
             System.out.println(e.getMessage());
         }
 
-        if (installation == null || !installationDAO.addInstallation(installation)) {
+        if (installation == null || !installationRepository.addInstallation(installation)) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Проиозошла ошибка");
             alert.setHeaderText("Произошла ошибка при добавлении!");
@@ -550,7 +550,7 @@ public class MainController {
     private void deleteInstallation() {
         Installation selected = installationTable.getSelectionModel().getSelectedItem();
         if (selected != null) {
-            installationDAO.deleteInstallation(selected.getId());
+            installationRepository.deleteInstallation(selected.getId());
             loadOrRefreshInstallations();
         }
     }
@@ -582,7 +582,7 @@ public class MainController {
             System.out.println(e.getMessage());
         }
 
-        if (license == null || !licenseDAO.addLicense(license)) {
+        if (license == null || !licenseRepository.addLicense(license)) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Произошла ошибка");
             alert.setHeaderText("Слава родился");
@@ -602,7 +602,7 @@ public class MainController {
     private void deleteLicense() {
         License selected = licenseTable.getSelectionModel().getSelectedItem();
         if (selected != null) {
-            licenseDAO.deleteLicense(selected.getId());
+            licenseRepository.deleteLicense(selected.getId());
             loadOrRefreshLicenses();
         }
     }
@@ -623,7 +623,7 @@ public class MainController {
         }
 
         Software software = new Software(name, version, vendor, licenseType);
-        if (!softwareDAO.addSoftware(software)) {
+        if (!softwareRepository.addSoftware(software)) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Произошла ошибка!");
             alert.setHeaderText("Слава родился!");
@@ -644,7 +644,7 @@ public class MainController {
     private void deleteSoftware() {
         Software selected = softwareTable.getSelectionModel().getSelectedItem();
         if (selected != null) {
-            softwareDAO.deleteSoftware(selected.getId());
+            softwareRepository.deleteSoftware(selected.getId());
             loadOrRefreshSoftwares();
         }
     }
@@ -677,7 +677,7 @@ public class MainController {
 
         }
 
-        if (softwareUsage == null || !softwareUsageDAO.addSoftwareUsage(softwareUsage)) {
+        if (softwareUsage == null || !softwareUsageRepository.addSoftwareUsage(softwareUsage)) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Произошла ошибка!");
             alert.setHeaderText("Слава родился!");
@@ -698,7 +698,7 @@ public class MainController {
     private void deleteSoftwareUsage() {
         SoftwareUsage selected = softwareUsageTable.getSelectionModel().getSelectedItem();
         if (selected != null) {
-            softwareUsageDAO.deleteSoftwareUsage(selected.getId());
+            softwareUsageRepository.deleteSoftwareUsage(selected.getId());
             loadOrRefreshSoftwareUsages();
         }
     }

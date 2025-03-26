@@ -1,13 +1,13 @@
-package app.dao;
+package app.repository;
 
-import app.model.Employee;
+import app.dao.Employee;
 import app.util.DatabaseConnection;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.sql.*;
 
-public class EmployeeDao {
+public class EmployeeRepository {
     public ObservableList<Employee> getAllEmployees() {
         ObservableList<Employee> list = FXCollections.observableArrayList();
         String query = "SELECT * FROM employee";

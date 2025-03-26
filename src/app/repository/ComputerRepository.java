@@ -1,13 +1,13 @@
-package app.dao;
+package app.repository;
 
-import app.model.Computer;
+import app.dao.Computer;
 import app.util.DatabaseConnection;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.sql.*;
 
-public class ComputerDao {
+public class ComputerRepository {
     public ObservableList<Computer> getAllComputers() {
         ObservableList<Computer> list = FXCollections.observableArrayList();
         String query = "SELECT * FROM computer";

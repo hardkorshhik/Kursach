@@ -1,4 +1,4 @@
-package app.model;
+package app.dao;
 
 public class Computer {
     private int id;
@@ -22,6 +22,26 @@ public class Computer {
         this.model = model;
         this.cpu = cpu;
         this.ram = ram;
+        this.os = os;
+    }
+
+    public void setInventoryNumber(String inventoryNumber) {
+        this.inventoryNumber = inventoryNumber;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
+    }
+
+    public void setCpu(String cpu) {
+        this.cpu = cpu;
+    }
+
+    public void setRam(String ram) {
+        this.ram = ram;
+    }
+
+    public void setOs(String os) {
         this.os = os;
     }
 
@@ -59,25 +79,5 @@ public class Computer {
                 ", ram='" + ram + '\'' +
                 ", os='" + os + '\'' +
                 '}';
-    }
-
-    public void setInventoryNumber(String inventoryNumber) {
-        this.inventoryNumber = inventoryNumber;
-    }
-
-    public void setModel(String model) {
-        this.model = model;
-    }
-
-    public void setCpu(String cpu) {
-        this.cpu = cpu;
-    }
-
-    public void setRam(String ram) {
-        this.ram = ram;
-    }
-
-    public void setOs(String os) {
-        this.os = os;
     }
 }

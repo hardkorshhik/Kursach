@@ -1,4 +1,4 @@
-package app.model;
+package app.dao;
 
 public class Software {
     private int id;

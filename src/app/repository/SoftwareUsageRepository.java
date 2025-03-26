@@ -1,13 +1,13 @@
-package app.dao;
+package app.repository;
 
-import app.model.SoftwareUsage;
+import app.dao.SoftwareUsage;
 import app.util.DatabaseConnection;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.sql.*;
 
-public class SoftwareUsageDao {
+public class SoftwareUsageRepository {
     public ObservableList<SoftwareUsage> getAllSoftwareUsage() {
         ObservableList<SoftwareUsage> list = FXCollections.observableArrayList();
         String query = "SELECT * FROM software_usage";
