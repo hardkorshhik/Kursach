@@ -44,7 +44,27 @@ public class SoftwareDao {
             ps.executeUpdate();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
+            return false;
+        }
+        return true;
+    }
+
+    public boolean updateSoftware(Software software) {
+        String query = "UPDATE software SET name = ?, version = ?, vendor =?, license_type = ? WHERE id = ?";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(query)) {
+
+            ps.setString(1, software.getName());
+            ps.setString(2, software.getVersion());
+            ps.setString(3, software.getVendor());
+            ps.setString(4, software.getLicenseType());
+            ps.setInt(5, software.getId());
+
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
             return false;
         }
         return true;

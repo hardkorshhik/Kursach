@@ -54,4 +54,20 @@ public class SoftwareUsage {
                 ", endDate=" + endDate +
                 '}';
     }
+
+    public void setSoftwareId(int softwareId) {
+        this.softwareId = softwareId;
+    }
+
+    public void setEmployeeId(int employeeId) {
+        this.employeeId = employeeId;
+    }
+
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
+    }
+
+    public void setEndDate(LocalDate endDate) {
+        this.endDate = endDate;
+    }
 }

@@ -46,7 +46,28 @@ public class ComputerDao {
             stmt.executeUpdate();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
+            return false;
+        }
+        return true;
+    }
+
+    public boolean updateComputer(Computer computer) {
+        String sql = "UPDATE computer SET inventory_number = ?, model = ?, cpu = ?, ram = ?, os = ? where id = ?";
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, computer.getInventoryNumber());
+            stmt.setString(2, computer.getModel());
+            stmt.setString(3, computer.getCpu());
+            stmt.setString(4, computer.getRam());
+            stmt.setString(5, computer.getOs());
+            stmt.setInt(6, computer.getId());
+            stmt.executeUpdate();
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
             return false;
         }
         return true;

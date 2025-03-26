@@ -9,7 +9,12 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.util.StringConverter;
+import javafx.util.converter.IntegerStringConverter;
 
 public class MainController {
 
@@ -19,6 +24,7 @@ public class MainController {
     @FXML private TableView<License> licenseTable;
     @FXML private TableView<Software> softwareTable;
     @FXML private TableView<SoftwareUsage> softwareUsageTable;
+
     @FXML private TextField softwareIdField;
     @FXML private TextField licenseKeyField;
     @FXML private TextField purchaseDateField;
@@ -68,70 +74,144 @@ public class MainController {
 
     private void setupComputerTable() {
         computerTable.getColumns().setAll(
-                createColumn("ID", "id"),
-                createColumn("Inventory Number", "inventoryNumber"),
-                createColumn("Model", "model"),
-                createColumn("CPU", "cpu"),
-                createColumn("RAM", "ram"),
-                createColumn("OS", "os")
+                createColumnInteger("ID", "id"),
+                createColumnText("Inventory Number", "inventoryNumber"),
+                createColumnText("Model", "model"),
+                createColumnText("CPU", "cpu"),
+                createColumnText("RAM", "ram"),
+                createColumnText("OS", "os")
         );
     }
 
     private void setupEmployeeTable() {
         employeeTable.getColumns().setAll(
-                createColumn("ID", "id"),
-                createColumn("Full Name", "fullName"),
-                createColumn("Position", "position"),
-                createColumn("Department", "department"),
-                createColumn("Email", "email"),
-                createColumn("Phone", "phone")
+                createColumnInteger("ID", "id"),
+                createColumnText("Full Name", "fullName"),
+                createColumnText("Position", "position"),
+                createColumnText("Department", "department"),
+                createColumnText("Email", "email"),
+                createColumnText("Phone", "phone")
         );
     }
 
     private void setupInstallationTable() {
         installationTable.getColumns().setAll(
-                createColumn("ID", "id"),
-                createColumn("Software ID", "softwareId"),
-                createColumn("Computer ID", "computerId"),
-                createColumn("Install Date", "installDate")
+                createColumnInteger("ID", "id"),
+                createColumnInteger("Software ID", "softwareId"),
+                createColumnInteger("Computer ID", "computerId"),
+                createColumnDate("Install Date", "installDate")
         );
     }
 
     private void setupLicenseTable() {
         licenseTable.getColumns().setAll(
-                createColumn("ID", "id"),
-                createColumn("Software ID", "softwareId"),
-                createColumn("Key", "key"),
-                createColumn("Purchase Date", "purchaseDate"),
-                createColumn("Expiration Date", "expirationDate")
+                createColumnInteger("ID", "id"),
+                createColumnInteger("Software ID", "softwareId"),
+                createColumnText("Key", "key"),
+                createColumnDate("Purchase Date", "purchaseDate"),
+                createColumnDate("Expiration Date", "expirationDate")
         );
     }
 
     private void setupSoftwareTable() {
         softwareTable.getColumns().setAll(
-                createColumn("ID", "id"),
-                createColumn("Name", "name"),
-                createColumn("Version", "version"),
-                createColumn("Vendor", "vendor"),
-                createColumn("License Type", "licenseType")
+                createColumnInteger("ID", "id"),
+                createColumnText("Name", "name"),
+                createColumnText("Version", "version"),
+                createColumnText("Vendor", "vendor"),
+                createColumnText("License Type", "licenseType")
         );
     }
 
     private void setupSoftwareUsageTable() {
         softwareUsageTable.getColumns().setAll(
-                createColumn("ID", "id"),
-                createColumn("Software ID", "softwareId"),
-                createColumn("Employee ID", "employeeId"),
-                createColumn("Start Date", "startDate"),
-                createColumn("End Date", "endDate")
+                createColumnInteger("ID", "id"),
+                createColumnInteger("Software ID", "softwareId"),
+                createColumnInteger("Employee ID", "employeeId"),
+                createColumnDate("Start Date", "startDate"),
+                createColumnDate("End Date", "endDate")
         );
     }
 
-    // Универсальный метод для создания колонок
-    private <T> TableColumn<T, ?> createColumn(String title, String property) {
-        TableColumn<T, Object> col = new TableColumn<>(title);
+    private <T> TableColumn<T, String> createColumnText(String title, String property) {
+        TableColumn<T, String> col = new TableColumn<>(title);
+        col.setCellFactory(TextFieldTableCell.forTableColumn());
         col.setCellValueFactory(new PropertyValueFactory<>(property));
+        col.setEditable(true);
+        col.setOnEditCommit(event -> {
+            handlerTextColumn(event.getRowValue(), event.getNewValue(), title);
+        });
         return col;
+    }
+
+    private <M> void handlerTextColumn(M model, String newValue, String title) {
+        if (model instanceof Computer) {
+            handlerComputer((Computer) model, newValue, title);
+        } else if (model instanceof Employee) {
+            handlerEmployee((Employee) model, newValue, title);
+        } else if (model instanceof License) {
+            handlerLicenseKey((License) model, newValue);
+        } else if (model instanceof Software) {
+            handlerSoftware((Software) model, newValue, title);
+        }
+    }
+
+    private <T> TableColumn<T, LocalDate> createColumnDate(String title, String property) {
+        TableColumn<T, LocalDate> col = new TableColumn<>(title);
+        col.setCellValueFactory(new PropertyValueFactory<>(property));
+        col.setCellFactory(TextFieldTableCell.forTableColumn(new StringConverter<>() {
+            final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+            @Override
+            public String toString(LocalDate localDate) {
+                return localDate != null ? formatter.format(localDate) : "";
+            }
+
+            @Override
+            public LocalDate fromString(String s) {
+                return (s != null && !s.isEmpty()) ? LocalDate.parse(s, formatter) : null;
+            }
+        }));
+        col.setEditable(true);
+        col.setOnEditCommit(event -> handlerDateColumn(
+                event.getRowValue(),
+                event.getNewValue(),
+                title
+        ));
+        return col;
+    }
+
+    private <M> void handlerDateColumn(M model, LocalDate newValue, String title) {
+        if (model instanceof Installation) {
+            handlerInstallationDate((Installation) model, newValue);
+        } else if (model instanceof License) {
+            handlerLicenseDate((License) model, newValue, title);
+        } else if (model instanceof SoftwareUsage) {
+            handlerSoftwareUsagesDate((SoftwareUsage) model, newValue, title);
+        }
+    }
+
+    private <T> TableColumn<T, Integer> createColumnInteger(String title, String property) {
+        TableColumn<T, Integer> col = new TableColumn<>(title);
+        col.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
+        col.setCellValueFactory(new PropertyValueFactory<>(property));
+        col.setEditable(!title.equals("ID"));
+        col.setOnEditCommit(event -> handlerIntegerColumn(
+                event.getRowValue(),
+                event.getNewValue(),
+                title
+        ));
+        return col;
+    }
+
+    private <M> void handlerIntegerColumn(M model, Integer newValue, String title) {
+        if (model instanceof Installation) {
+            handlerInstallation((Installation) model, newValue, title);
+        } else if (model instanceof License) {
+            handlerLicense((License) model, newValue);
+        } else if (model instanceof SoftwareUsage) {
+            handlerIntegerSoftwareUsages((SoftwareUsage) model, newValue, title);
+        }
     }
 
     // Загрузка данных в таблицы
@@ -149,36 +229,189 @@ public class MainController {
     private void loadOrRefreshComputers() {
         ObservableList<Computer> computers = computerDAO.getAllComputers();
         computerTable.setItems(computers);
+        computerTable.setEditable(true);
+    }
+
+    private void handlerComputer(Computer computer, String newValue, String title) {
+        switch (title) {
+            case "Inventory Number" -> computer.setInventoryNumber(newValue);
+            case "Model" -> computer.setModel(newValue);
+            case "CPU" -> computer.setCpu(newValue);
+            case "RAM" -> computer.setRam(newValue);
+            case "OS" -> computer.setOs(newValue);
+        }
+
+        if (!computerDAO.updateComputer(computer)) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Ошибка редактирования");
+            alert.setHeaderText("Не удалось обновить запись в базе данных");
+            alert.showAndWait();
+        }
     }
 
     @FXML
     private void loadOrRefreshEmployees() {
         ObservableList<Employee> employees = employeeDAO.getAllEmployees();
         employeeTable.setItems(employees);
+        employeeTable.setEditable(true);
+    }
+
+    private void handlerEmployee(Employee employee, String newValue, String title) {
+        switch (title) {
+            case "Full Name" -> employee.setFullName(newValue);
+            case "Position" -> employee.setPosition(newValue);
+            case "Department" -> employee.setDepartment(newValue);
+            case "Email" -> employee.setEmail(newValue);
+            case "Phone" -> employee.setPhone(newValue);
+        }
+
+        if (!employeeDAO.updateEmployee(employee)) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Ошибка редактирования");
+            alert.setHeaderText("Не удалось обновить запись в базе данных");
+            alert.showAndWait();
+        }
     }
 
     @FXML
     private void loadOrRefreshInstallations() {
         ObservableList<Installation> installations = installationDAO.getAllInstallations();
         installationTable.setItems(installations);
+        installationTable.setEditable(true);
+    }
+
+    private void handlerInstallationDate(Installation installation, LocalDate newValue) {
+        if (newValue == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Ошибка редактирования");
+            alert.setHeaderText("Не корректна указана дата");
+            alert.showAndWait();
+            return;
+        }
+
+        installation.setInstallDate(newValue);
+
+        if (!installationDAO.updateInstallation(installation)) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Ошибка редактирования");
+            alert.setHeaderText("Не удалось обновить запись в базе данных");
+            alert.showAndWait();
+        }
+    }
+
+    private void handlerInstallation(Installation installation, Integer newValue, String title) {
+        switch (title) {
+            case "Software ID" -> installation.setSoftwareId(newValue);
+            case "Computer ID" -> installation.setComputerId(newValue);
+        }
+
+        if (!installationDAO.updateInstallation(installation)) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Ошибка редактирования");
+            alert.setHeaderText("Не удалось обновить запись в базе данных");
+            alert.showAndWait();
+        }
     }
 
     @FXML
     private void loadOrRefreshLicenses() {
         ObservableList<License> licenses = licenseDAO.getAllLicenses();
         licenseTable.setItems(licenses);
+        licenseTable.setEditable(true);
+    }
+
+    private void handlerLicenseDate(License license, LocalDate newValue, String title) {
+        switch (title) {
+            case "Purchase Date" -> license.setPurchaseDate(newValue);
+            case "Expiration Date" -> license.setExpirationDate(newValue);
+        }
+
+        if (!licenseDAO.updateLicense(license)) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Ошибка редактирования");
+            alert.setHeaderText("Не удалось обновить запись в базе данных");
+            alert.showAndWait();
+        }
+    }
+
+    private void handlerLicenseKey(License license, String newValue) {
+        license.setKey(newValue);
+
+        if (!licenseDAO.updateLicense(license)) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Ошибка редактирования");
+            alert.setHeaderText("Не удалось обновить запись в базе данных");
+            alert.showAndWait();
+        }
+    }
+
+    private void handlerLicense(License license, Integer newValue) {
+        license.setSoftwareId(newValue);
+
+        if (!licenseDAO.updateLicense(license)) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Ошибка редактирования");
+            alert.setHeaderText("Не удалось обновить запись в базе данных");
+            alert.showAndWait();
+        }
     }
 
     @FXML
     private void loadOrRefreshSoftwares() {
         ObservableList<Software> softwareList = softwareDAO.getAllSoftware();
         softwareTable.setItems(softwareList);
+        softwareTable.setEditable(true);
+    }
+
+    private void handlerSoftware(Software software, String newValue, String title) {
+        switch (title) {
+            case "Name" -> software.setName(newValue);
+            case "Version" -> software.setVersion(newValue);
+            case "Vemdor" -> software.setVendor(newValue);
+            case "License Type" -> software.setLicenseType(newValue);
+        }
+
+        if (!softwareDAO.updateSoftware(software)) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Ошибка редактирования");
+            alert.setHeaderText("Не удалось обновить запись в базе данных");
+            alert.showAndWait();
+        }
     }
 
     @FXML
     private void loadOrRefreshSoftwareUsages() {
         ObservableList<SoftwareUsage> usageList = softwareUsageDAO.getAllSoftwareUsage();
         softwareUsageTable.setItems(usageList);
+        softwareUsageTable.setEditable(true);
+    }
+
+    private void handlerSoftwareUsagesDate(SoftwareUsage softwareUsage, LocalDate newValue, String title) {
+        switch (title) {
+            case "Start Date" -> softwareUsage.setStartDate(newValue);
+            case "End Date" -> softwareUsage.setEndDate(newValue);
+        }
+
+        if (!softwareUsageDAO.updateSoftwareUsage(softwareUsage)) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Ошибка редактирования");
+            alert.setHeaderText("Не удалось обновить запись в базе данных");
+            alert.showAndWait();
+        }
+    }
+
+    private void handlerIntegerSoftwareUsages(SoftwareUsage softwareUsage, Integer newValue, String title) {
+        switch (title) {
+            case "Software ID" -> softwareUsage.setSoftwareId(newValue);
+            case "Employee ID" -> softwareUsage.setEmployeeId(newValue);
+        }
+
+        if (!softwareUsageDAO.updateSoftwareUsage(softwareUsage)) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Ошибка редактирования");
+            alert.setHeaderText("Не удалось обновить запись в базе данных");
+            alert.showAndWait();
+        }
     }
 
     @FXML

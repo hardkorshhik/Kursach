@@ -52,6 +52,24 @@ public class InstallationDao {
         return true;
     }
 
+    public boolean updateInstallation(Installation installation) {
+        String query = "UPDATE installation SET software_id = ?, computer_id = ?, install_date = ? WHERE id = ?";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(query)) {
+
+            ps.setInt(1, installation.getSoftwareId());
+            ps.setInt(2, installation.getComputerId());
+            ps.setDate(3, (installation.getInstallDate() != null) ? Date.valueOf(installation.getInstallDate()) : null);
+            ps.setInt(4, installation.getId());
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+        return true;
+    }
+
     public void deleteInstallation(int id) {
         String query = "DELETE FROM installation WHERE id=?";
         try (Connection conn = DatabaseConnection.getConnection();

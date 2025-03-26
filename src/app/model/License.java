@@ -26,6 +26,22 @@ public class License {
         this.expirationDate = expirationDate;
     }
 
+    public void setSoftwareId(int softwareId) {
+        this.softwareId = softwareId;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    public void setPurchaseDate(LocalDate purchaseDate) {
+        this.purchaseDate = purchaseDate;
+    }
+
+    public void setExpirationDate(LocalDate expirationDate) {
+        this.expirationDate = expirationDate;
+    }
+
     // Геттеры
     public int getId() {
         return id;

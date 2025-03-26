@@ -37,6 +37,18 @@ public class Installation {
         return installDate;
     }
 
+    public void setSoftwareId(int softwareId) {
+        this.softwareId = softwareId;
+    }
+
+    public void setComputerId(int computerId) {
+        this.computerId = computerId;
+    }
+
+    public void setInstallDate(LocalDate installDate) {
+        this.installDate = installDate;
+    }
+
     @Override
     public String toString() {
         return "Installation{" +

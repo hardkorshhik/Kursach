@@ -60,4 +60,24 @@ public class Computer {
                 ", os='" + os + '\'' +
                 '}';
     }
+
+    public void setInventoryNumber(String inventoryNumber) {
+        this.inventoryNumber = inventoryNumber;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
+    }
+
+    public void setCpu(String cpu) {
+        this.cpu = cpu;
+    }
+
+    public void setRam(String ram) {
+        this.ram = ram;
+    }
+
+    public void setOs(String os) {
+        this.os = os;
+    }
 }

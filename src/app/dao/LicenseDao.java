@@ -49,6 +49,25 @@ public class LicenseDao {
         return true;
     }
 
+    public boolean updateLicense(License license) {
+        String query = "UPDATE license SET software_id = ?, key = ?, purchase_date = ?, expiration_date = ? WHERE id = ?";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(query)) {
+
+            ps.setInt(1, license.getSoftwareId());
+            ps.setString(2, license.getKey());
+            ps.setDate(3, (license.getPurchaseDate() != null) ? Date.valueOf(license.getPurchaseDate()) : null);
+            ps.setDate(4, (license.getExpirationDate() != null) ? Date.valueOf(license.getExpirationDate()) : null);
+            ps.setInt(5, license.getId());
+
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
     public void deleteLicense(int id) {
         String query = "DELETE FROM license WHERE id=?";
         try (Connection conn = DatabaseConnection.getConnection();

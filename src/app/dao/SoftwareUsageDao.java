@@ -50,6 +50,26 @@ public class SoftwareUsageDao {
         return true;
     }
 
+    public boolean updateSoftwareUsage(SoftwareUsage softwareUsage) {
+        String query = "UPDATE software_usage SET software_id = ?, employee_id = ?, start_date = ?, end_date = ? WHERE id = ?";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(query)) {
+
+            ps.setInt(1, softwareUsage.getSoftwareId());
+            ps.setInt(2, softwareUsage.getEmployeeId());
+            ps.setDate(3, Date.valueOf(softwareUsage.getStartDate()));
+            ps.setDate(4, Date.valueOf(softwareUsage.getEndDate()));
+            ps.setInt(5, softwareUsage.getId());
+
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+        return true;
+    }
+
     public void deleteSoftwareUsage(int id) {
         String query = "DELETE FROM software_usage WHERE id=?";
         try (Connection conn = DatabaseConnection.getConnection();

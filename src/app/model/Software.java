@@ -5,6 +5,7 @@ public class Software {
     private String name;
     private String version;
     private String vendor;
+
     private String licenseType;
 
     public Software(int id, String name, String version, String vendor, String licenseType) {
@@ -29,6 +30,22 @@ public class Software {
     public String getVersion() { return version; }
     public String getVendor() { return vendor; }
     public String getLicenseType() { return licenseType; }
+
+    public void setLicenseType(String licenseType) {
+        this.licenseType = licenseType;
+    }
+
+    public void setVendor(String vendor) {
+        this.vendor = vendor;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     @Override
     public String toString() {

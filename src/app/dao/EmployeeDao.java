@@ -52,6 +52,26 @@ public class EmployeeDao {
         return true;
     }
 
+    public boolean updateEmployee(Employee employee) {
+        String sql = "UPDATE employee SET full_name = ?, position = ?, department = ?, email = ?, phone = ? where id = ?";
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, employee.getFullName());
+            pstmt.setString(2, employee.getPosition());
+            pstmt.setString(3, employee.getDepartment());
+            pstmt.setString(4, employee.getEmail());
+            pstmt.setString(5, employee.getPhone());
+            pstmt.setInt(6, employee.getId());
+
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+        return true;
+    }
 
     public void deleteEmployee(int id) {
         String query = "DELETE FROM employee WHERE id=?";
