@@ -24,7 +24,6 @@ public class Software {
         this.licenseType = licenseType;
     }
 
-    // Геттеры
     public int getId() { return id; }
     public String getName() { return name; }
     public String getVersion() { return version; }

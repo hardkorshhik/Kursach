@@ -20,11 +20,9 @@
                 <Insets bottom="20" left="20" right="20" top="20" />
             </padding>
 
-            <!-- Компьютеры -->
             <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Computers" />
             <TableView fx:id="computerTable" prefHeight="200" prefWidth="1100" />
 
-            <!-- Поля для добавления компьютера -->
             <HBox spacing="10">
                 <TextField fx:id="computerInventoryNumberField" promptText="Инвентарный номер" />
                 <TextField fx:id="computerModelField" promptText="Модель" />
@@ -32,7 +30,6 @@
                 <TextField fx:id="computerRamField" promptText="RAM" />
                 <TextField fx:id="computerOsField" promptText="ОС" />
    
-               <!-- Кнопки -->
                <HBox spacing="10">
                    <Button onAction="#addComputer" text="Добавить" />
                    <Button onAction="#deleteComputer" text="Удалить" />
@@ -41,11 +38,9 @@
             </HBox>
 
 
-            <!-- Сотрудники -->
             <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Employees" />
             <TableView fx:id="employeeTable" prefHeight="200" prefWidth="1100" />
 
-            <!-- Поля для добавления сотрудника -->
             <HBox spacing="10">
                 <TextField fx:id="employeeFullNameField" promptText="ФИО" />
                 <TextField fx:id="employeePositionField" promptText="Должность" />
@@ -54,24 +49,20 @@
                 <TextField fx:id="employeePhoneField" promptText="Телефон" />
                 <Button onAction="#addEmployee" text="Добавить" />
    
-               <!-- Кнопки для удаления и обновления -->
                <HBox spacing="10">
                    <Button onAction="#deleteEmployee" text="Удалить" />
                    <Button onAction="#loadOrRefreshEmployees" text="Обновить" />
                </HBox>
             </HBox>
 
-            <!-- Установки -->
             <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Installations" />
             <TableView fx:id="installationTable" prefHeight="200" prefWidth="1100" />
 
-            <!-- Поля для добавления установки -->
             <HBox spacing="10">
                 <TextField fx:id="installationSoftwareIdField" promptText="Software ID" />
                 <TextField fx:id="installationComputerIdField" promptText="Computer ID" />
                 <TextField fx:id="installationDateField" promptText="Install Date (yyyy-MM-dd)" />
    
-               <!-- Кнопки управления установками -->
                <HBox spacing="10">
                    <Button onAction="#addInstallation" text="Добавить" />
                    <Button onAction="#deleteInstallation" text="Удалить" />
@@ -79,8 +70,6 @@
                </HBox>
             </HBox>
 
-
-            <!-- Лицензии -->
             <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Licenses" />
             <TableView fx:id="licenseTable" prefHeight="200" prefWidth="1100" />
             <HBox spacing="10">
@@ -93,18 +82,15 @@
                 <Button onAction="#loadOrRefreshLicenses" text="Обновить" />
             </HBox>
 
-            <!-- Программы -->
             <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Software" />
             <TableView fx:id="softwareTable" prefHeight="200" prefWidth="1100" />
 
-            <!-- Поля для добавления программного обеспечения -->
             <HBox spacing="10">
                 <TextField fx:id="softwareNameField" promptText="Название ПО" />
                 <TextField fx:id="softwareVersionField" promptText="Версия ПО" />
                 <TextField fx:id="softwareVendorField" promptText="Производитель ПО" />
                 <TextField fx:id="softwareLicenseTypeField" promptText="Тип лицензии" />
    
-               <!-- Кнопки управления ПО -->
                <HBox spacing="10">
                    <Button onAction="#addSoftware" text="Добавить" />
                    <Button onAction="#deleteSoftware" text="Удалить" />
@@ -113,11 +99,9 @@
             </HBox>
 
 
-            <!-- Software Usage -->
             <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Software Usage" />
             <TableView fx:id="softwareUsageTable" prefHeight="200" prefWidth="1100">
                 <columns>
-                    <!-- Пример колонок -->
                     <TableColumn fx:id="usageSoftwareIdColumn" text="Software ID" />
                     <TableColumn fx:id="usageEmployeeIdColumn" text="Employee ID" />
                     <TableColumn fx:id="usageStartDateColumn" text="Start Date" />
@@ -125,7 +109,6 @@
                 </columns>
             </TableView>
 
-            <!-- Добавление данных для Software Usage -->
             <HBox spacing="10">
                 <TextField fx:id="softwareUsageSoftwareIdField" promptText="Software ID" />
                 <TextField fx:id="softwareUsageEmployeeIdField" promptText="Employee ID" />

@@ -6,7 +6,7 @@ public class Installation {
     private int id;
     private int softwareId;
     private int computerId;
-    private LocalDate installDate;  // Исправил String -> LocalDate
+    private LocalDate installDate;
 
     public Installation(int id, int softwareId, int computerId, LocalDate installDate) {
         this.id = id;

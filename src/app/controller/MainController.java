@@ -51,8 +51,6 @@ public class MainController {
     @FXML private TextField softwareUsageStartDateField;
     @FXML private TextField softwareUsageEndDateField;
 
-
-    // DAO Instances
     private final ComputerRepository computerRepository = new ComputerRepository();
     private final EmployeeRepository employeeRepository = new EmployeeRepository();
     private final InstallationRepository installationRepository = new InstallationRepository();
@@ -214,7 +212,6 @@ public class MainController {
         }
     }
 
-    // Загрузка данных в таблицы
     @FXML
     private void loadOrRefreshTables() {
         loadOrRefreshComputers();
@@ -460,7 +457,6 @@ public class MainController {
 
     @FXML
     private void addEmployee() {
-        // Получаем данные из полей ввода
         String fullName = employeeFullNameField.getText();
         String position = employeePositionField.getText();
         String department = employeeDepartmentField.getText();
@@ -484,14 +480,12 @@ public class MainController {
             return;
         }
 
-        // Очищаем поля ввода
         employeeFullNameField.clear();
         employeePositionField.clear();
         employeeDepartmentField.clear();
         employeeEmailField.clear();
         employeePhoneField.clear();
 
-        // Обновляем таблицу
         loadOrRefreshEmployees();
     }
 
@@ -539,7 +533,6 @@ public class MainController {
 
         loadOrRefreshInstallations();
 
-        // Очищаем поля
         installationSoftwareIdField.clear();
         installationComputerIdField.clear();
         installationDateField.clear();
@@ -585,7 +578,7 @@ public class MainController {
         if (license == null || !licenseRepository.addLicense(license)) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Произошла ошибка");
-            alert.setHeaderText("Слава родился");
+            alert.setHeaderText("Произошла ошибка при добавлении!");
             alert.showAndWait();
             return;
         }
@@ -609,10 +602,10 @@ public class MainController {
 
     @FXML
     private void addSoftware() {
-        String name = softwareNameField.getText().trim(); // Получаем название программного обеспечения
-        String version = softwareVersionField.getText().trim(); // Получаем версию
-        String vendor = softwareVendorField.getText().trim(); // Получаем производителя
-        String licenseType = softwareLicenseTypeField.getText().trim(); // Получаем тип лицензии
+        String name = softwareNameField.getText().trim();
+        String version = softwareVersionField.getText().trim();
+        String vendor = softwareVendorField.getText().trim();
+        String licenseType = softwareLicenseTypeField.getText().trim();
 
         if (name.isEmpty() || version.isEmpty() || vendor.isEmpty() || licenseType.isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -626,7 +619,7 @@ public class MainController {
         if (!softwareRepository.addSoftware(software)) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Произошла ошибка!");
-            alert.setHeaderText("Слава родился!");
+            alert.setHeaderText("Произошла ошибка при добавлении!");
             alert.showAndWait();
             return;
         }
@@ -680,7 +673,7 @@ public class MainController {
         if (softwareUsage == null || !softwareUsageRepository.addSoftwareUsage(softwareUsage)) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Произошла ошибка!");
-            alert.setHeaderText("Слава родился!");
+            alert.setHeaderText("Произошла ошибка при добавлении!");
             alert.showAndWait();
             return;
         }

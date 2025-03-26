@@ -6,10 +6,9 @@ public class License {
     private int id;
     private int softwareId;
     private String key;
-    private LocalDate purchaseDate;      // Было String -> стало LocalDate
-    private LocalDate expirationDate;    // Было String -> стало LocalDate
+    private LocalDate purchaseDate;
+    private LocalDate expirationDate;
 
-    // Конструктор
     public License(int softwareId, String key, LocalDate purchaseDate, LocalDate expirationDate) {
         this.id = 0;
         this.softwareId = softwareId;
@@ -42,7 +41,6 @@ public class License {
         this.expirationDate = expirationDate;
     }
 
-    // Геттеры
     public int getId() {
         return id;
     }

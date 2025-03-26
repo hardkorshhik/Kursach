@@ -73,7 +73,6 @@ public class ComputerRepository {
         return true;
     }
 
-
     public void deleteComputer(int id) {
         String query = "DELETE FROM computer WHERE id=?";
         try (Connection conn = DatabaseConnection.getConnection();

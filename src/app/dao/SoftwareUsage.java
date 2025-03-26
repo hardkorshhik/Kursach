@@ -6,8 +6,8 @@ public class SoftwareUsage {
     private int id;
     private int softwareId;
     private int employeeId;
-    private LocalDate startDate;  // Было String -> стало LocalDate
-    private LocalDate endDate;    // Было String -> стало LocalDate
+    private LocalDate startDate;
+    private LocalDate endDate;
 
     public SoftwareUsage(int id, int softwareId, int employeeId, LocalDate startDate, LocalDate endDate) {
         this.id = id;

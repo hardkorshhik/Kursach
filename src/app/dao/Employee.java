@@ -28,7 +28,6 @@ public class Employee {
         this.phone = new SimpleStringProperty(phone);
     }
 
-    // Геттеры и сеттеры для JavaFX таблицы
     public int getId() { return id.get(); }
     public IntegerProperty idProperty() { return id; }
     public void setId(int id) { this.id.set(id); }
